@@ -1,0 +1,18 @@
+import { Link } from "react-router-dom";
+
+const Nav = () => {
+    return (
+        <nav>
+            <ul className="nav nav-tabs">
+                <li className="nav-item pr-3 pt-3 pb-3">
+                    <Link to='/'>Home</Link>
+                </li>
+                <li className="nav-item pr-3 pt-3 pb-3">
+                    <Link to='/createPost'>Create</Link>
+                </li>
+            </ul>
+        </nav>
+    )
+}
+
+export default Nav;
