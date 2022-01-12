@@ -19,3 +19,20 @@ exports.createPost = (req, res) => {
         res.json({ post });
     })
 }
+
+exports.listPosts = (req, res) => {
+    //GET 5 POSTS WITH SORTED LATEST
+    Post.find({}).limit(5).sort({ createdAt: -1 }).exec((err, posts) => {
+        if (err) console.log(err);
+        res.status(200).json({ posts: posts })
+    })
+}
+exports.readSinglePost = (req, res) => {
+    //get single post
+    const { slug } = req.params;
+    Post.findOne({ slug })
+        .exec((err, post) => {
+            if (err) console.log(err);
+            res.status(200).json(post);
+        })
+}

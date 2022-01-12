@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 //IMPORT CONTROLLERS
-const { createPost } = require('../controllers/post.controller')
+const { createPost, listPosts, readSinglePost } = require('../controllers/post.controller')
 
-router.post('/post', createPost);
+router.post('/createPost', createPost);
+router.get('/posts', listPosts);
+router.get('/posts/:slug', readSinglePost);
 
 module.exports = router;
