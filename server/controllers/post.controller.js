@@ -24,7 +24,7 @@ exports.listPosts = (req, res) => {
     //GET 5 POSTS WITH SORTED LATEST
     Post.find({}).limit(5).sort({ createdAt: -1 }).exec((err, posts) => {
         if (err) console.log(err);
-        res.status(200).json({ posts: posts })
+        res.status(200).json({ posts })
     })
 }
 exports.readSinglePost = (req, res) => {
@@ -34,5 +34,23 @@ exports.readSinglePost = (req, res) => {
         .exec((err, post) => {
             if (err) console.log(err);
             res.status(200).json(post);
+        })
+}
+
+exports.update = (req, res) => {
+    const { slug } = req.params;
+    const { title, content, user } = req.body;
+    Post.findOneAndUpdate({ slug }, { title, content, user }, { new: true }).exec((err, post) => {
+        if (err) console.log(err);
+        res.status(200).json(post);
+    })
+}
+exports.remove = (req, res) => {
+    //delete single post
+    const { slug } = req.params;
+    Post.findOneAndRemove({ slug })
+        .exec((err, post) => {
+            if (err) console.log(err);
+            res.status(200).json({ message: 'Post Deleted!' });
         })
 }

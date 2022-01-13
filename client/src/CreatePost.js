@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Nav from "./Nav";
+import { useHistory } from 'react-router-dom';
 
 const CreatePost = () => {
+    const history = useHistory();
     //STATE
     const [state, setState] = useState({
         title: '',
@@ -27,7 +29,8 @@ const CreatePost = () => {
                 //empty state
                 setState({ ...state, title: '', content: '', user: '' });
                 //success alert
-                alert(`Post titled ${response.data.post.title} is created!`)
+                alert(`Post titled ${response.data.post.title} is created!`);
+                history.push('/');
             })
             .catch(err => {
                 alert(err.response.data.error);
