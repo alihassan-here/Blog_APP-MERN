@@ -3,17 +3,28 @@ import axios from 'axios';
 import Nav from "./Nav";
 import { useHistory } from 'react-router-dom';
 
+import { getUser } from './helpers'
+
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
+
 const CreatePost = () => {
     const history = useHistory();
     //STATE
     const [state, setState] = useState({
         title: '',
-        content: '',
-        user: '',
+        user: getUser(),
     });
 
+    const [content, setContent] = useState('');
+
+    //RICH TEXT EDITORS
+    const handleContent = event => {
+        setContent(event)
+    }
+
     //DESTRUCTURE VALUES FROM state
-    const { title, content, user } = state;
+    const { title, user } = state;
 
     //ONCHANGE EVENT HANDLER
     const handleChange = name => e => {
@@ -50,7 +61,15 @@ const CreatePost = () => {
                 </div>
                 <div className="form-group">
                     <label className='text-muted'>Content</label>
-                    <textarea value={content} onChange={handleChange('content')} type="text" rows="8" cols="100" className="form-control" placeholder="Write something.." required />
+                    <ReactQuill
+                        value={content}
+                        theme='bubble'
+                        onChange={handleContent}
+                        className="pb-5 mb-3" placeholder="Write something.."
+                        style={{ border: '1px solid #666' }}
+
+                    />
+                    {/* <textarea value={content} onChange={handleChange('content')} type="text" rows="8" cols="100" className="form-control" placeholder="Write something.." required /> */}
                 </div>
                 <div className="form-group">
                     <label className='text-muted'>User</label>
