@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Nav from "./Nav";
 
+import { getToken } from './helpers';
+
 import { useHistory } from 'react-router-dom';
 
 const UpdatePost = (props) => {
@@ -33,7 +35,11 @@ const UpdatePost = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
         axios
-            .put(`${process.env.REACT_APP_API}/posts/${slug}`, { title, content, user })
+            .put(`${process.env.REACT_APP_API}/posts/${slug}`, { title, content, user }, {
+                headers: {
+                    authorization: `Bearer ${getToken()}`
+                }
+            })
             .then(response => {
                 const { title, content, slug, user } = response.data;
                 //empty state

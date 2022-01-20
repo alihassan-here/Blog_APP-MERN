@@ -3,28 +3,29 @@ import axios from 'axios';
 import Nav from "./Nav";
 import { useHistory } from 'react-router-dom';
 
-import { getUser } from './helpers'
+import { getUser, getToken } from './helpers'
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.bubble.css';
+// import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.bubble.css';
 
 const CreatePost = () => {
     const history = useHistory();
     //STATE
     const [state, setState] = useState({
         title: '',
+        content: '',
         user: getUser(),
     });
 
-    const [content, setContent] = useState('');
+    // const [content, setContent] = useState('');
 
     //RICH TEXT EDITORS
-    const handleContent = event => {
-        setContent(event)
-    }
+    // const handleContent = event => {
+    //     setContent(event)
+    // }
 
     //DESTRUCTURE VALUES FROM state
-    const { title, user } = state;
+    const { title, content, user } = state;
 
     //ONCHANGE EVENT HANDLER
     const handleChange = name => e => {
@@ -35,7 +36,11 @@ const CreatePost = () => {
     const handleSubmit = e => {
         e.preventDefault();
         axios
-            .post(`${process.env.REACT_APP_API}/createPost`, { title, content, user })
+            .post(`${process.env.REACT_APP_API}/createPost`, { title, content, user }, {
+                headers: {
+                    authorization: `Bearer ${getToken()}`
+                }
+            })
             .then(response => {
                 //empty state
                 setState({ ...state, title: '', content: '', user: '' });
@@ -61,15 +66,7 @@ const CreatePost = () => {
                 </div>
                 <div className="form-group">
                     <label className='text-muted'>Content</label>
-                    <ReactQuill
-                        value={content}
-                        theme='bubble'
-                        onChange={handleContent}
-                        className="pb-5 mb-3" placeholder="Write something.."
-                        style={{ border: '1px solid #666' }}
-
-                    />
-                    {/* <textarea value={content} onChange={handleChange('content')} type="text" rows="8" cols="100" className="form-control" placeholder="Write something.." required /> */}
+                    <textarea value={content} onChange={handleChange('content')} type="text" rows="8" cols="100" className="form-control" placeholder="Write something.." required />
                 </div>
                 <div className="form-group">
                     <label className='text-muted'>User</label>

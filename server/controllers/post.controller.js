@@ -22,7 +22,7 @@ exports.createPost = (req, res) => {
 
 exports.listPosts = (req, res) => {
     //GET 5 POSTS WITH SORTED LATEST
-    Post.find({}).limit(5).sort({ createdAt: -1 }).exec((err, posts) => {
+    Post.find({}).limit(10).sort({ createdAt: -1 }).exec((err, posts) => {
         if (err) console.log(err);
         res.status(200).json({ posts })
     })
